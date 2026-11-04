@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h1>PHILEX FINANCIAL</h1>
+    <h2>Owner Control Dashboard</h2>
+    <p>Manage customers and monitor financial records.</p>
+
+    <p>
+        <a href="{% url 'owner_verifications' %}">
+            Manage Customer Verification
+        </a>
+    </p>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3>Total Customers</h3>
+            <h2>{{ customer_count }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Active Customers</h3>
+            <h2>{{ active_customers }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Inactive Customers</h3>
+            <h2>{{ inactive_customers }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Financial Records</h3>
+            <h2>{{ record_count }}</h2>
+        </div>
+    </div>
+
+    <h2>Customer Verification</h2>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3>Pending Review</h3>
+            <h2>{{ pending_verifications }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Approved Customers</h3>
+            <h2>{{ approved_verifications }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Rejected Customers</h3>
+            <h2>{{ rejected_verifications }}</h2>
+        </div>
+    </div>
+
+    <h2>Financial Overview</h2>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3>Recorded Owner Capital</h3>
+            <h2>{{ totals.capital }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Recorded Income</h3>
+            <h2>{{ totals.income }}</h2>
+        </div>
+
+        <div class="card">
+            <h3>Recorded Expenses</h3>
+            <h2>{{ totals.expenses }}</h2>
+        </div>
+    </div>
+
+    <h2>Recently Registered Customers</h2>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Status</th>
+                    <th>Date Joined</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for customer in recent_customers %}
+                <tr>
+                    <td>{{ customer.username }}</td>
+                    <td>{{ customer.email }}</td>
+                    <td>
+                        {% if customer.is_active %}
+                            Active
+                        {% else %}
+                            Inactive
+                        {% endif %}
+                    </td>
+                    <td>{{ customer.date_joined|date:"d M Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No customers registered yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <h2>Recent Financial Records</h2>
+
+    <div class="card">
+        <table>
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for record in recent_records %}
+                <tr>
+                    <td>{{ record.owner.username }}</td>
+                    <td>{{ record.get_record_type_display }}</td>
+                    <td>{{ record.amount }}</td>
+                    <td>{{ record.record_date|date:"d M Y" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No financial records available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

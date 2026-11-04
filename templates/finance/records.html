@@ -1,0 +1,1 @@
+{% extends "base.html" %}{% block content %}<div class="page-head"><div><span class="eyebrow">ACTIVITY</span><h1>Financial records</h1><p>Review the entries you have saved.</p></div><a class="button" href="{% url 'add_record' %}">+ Add record</a></div><section class="panel">{% include "finance/record_table.html" %}</section>{% endblock %}

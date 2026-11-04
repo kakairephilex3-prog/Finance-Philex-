@@ -1,0 +1,14 @@
+db.sqlite3
+*.sqlite3
+FINAL_PRIVATE_BACKUP_*
+db_backup_*
+.env
+.env.*
+!.env.example
+__pycache__/
+*.py[cod]
+venv/
+.venv/
+staticfiles/
+media/
+*.bak

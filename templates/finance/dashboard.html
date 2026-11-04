@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block content %}<div class="page-head"><div><span class="eyebrow">OVERVIEW</span><h1>Welcome, {{ user.username }}</h1><p>Your recorded financial activity at a glance.</p></div><a class="button" href="{% url 'add_record' %}">+ Add record</a></div>
+{% if verification %}
+<section class="panel">
+    <h2>Account verification</h2>
+    <p>Status:
+        {% if verification.status == "APPROVED" %}
+            <strong>Approved</strong>
+        {% elif verification.status == "REJECTED" %}
+            <strong>Rejected</strong>
+        {% else %}
+            <strong>Pending review</strong>
+        {% endif %}
+    </p>
+    {% if verification.status == "PENDING" %}
+        <p>Your account is awaiting owner review.</p>
+    {% elif verification.status == "REJECTED" %}
+        <p>Your account has not been approved. Please contact the administrator for clarification.</p>
+    {% endif %}
+</section>
+{% endif %}
+<div class="metric-grid"><article><span>Owner capital recorded</span><strong>UGX {{ capital|floatformat:2 }}</strong></article><article><span>Business income</span><strong>UGX {{ income|floatformat:2 }}</strong></article><article><span>Business expenses</span><strong>UGX {{ expenses|floatformat:2 }}</strong></article><article><span>Net operating result</span><strong>UGX {{ net_result|floatformat:2 }}</strong></article></div>
+<section class="panel"><div class="panel-head"><h2>Recent records</h2><a href="{% url 'records' %}">View all</a></div>{% include "finance/record_table.html" with records=recent %}</section>
+<p class="disclaimer">These are user-entered records, not a bank balance or investment valuation. A positive result is not a forecast or guaranteed return.</p>{% endblock %}
